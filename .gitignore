@@ -1,1 +1,8 @@
-*xlsx
+# data/excel
+*.xlsx
+*.csv
+
+# sqlite
+*.db
+*.sqbpro
+*.sqlite
