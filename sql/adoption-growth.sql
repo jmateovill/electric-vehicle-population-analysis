@@ -1,4 +1,4 @@
--- adoption velocity YoY
+-- adoption velocity YoY production
 SELECT model_year, COUNT(vin)
 FROM evpd_staging
 GROUP BY model_year
@@ -16,7 +16,7 @@ SELECT DISTINCT maker
 FROM evpd_staging
 ORDER BY 1;
 
--- adoption rate over year by the past decade
+-- adoption rate over year by the past decade of production
 WITH ev_decade AS (
 	SELECT model_year as year, CAST(COUNT(*) AS REAL) as ev_count
 	FROM evpd_staging

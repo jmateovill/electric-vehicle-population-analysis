@@ -15,6 +15,7 @@ WHERE ev_type = "PHEV"
 GROUP BY model_year
 HAVING model_year BETWEEN 2015 AND 2025;
 
+-- phev share on total ev count + phev adoption rate YoY
 WITH phev_decade AS (
 	SELECT 
 		model_year as year, 
