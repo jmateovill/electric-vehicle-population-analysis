@@ -33,5 +33,3 @@ FROM (
 )
 WHERE rownum = 1;
 
-
-
