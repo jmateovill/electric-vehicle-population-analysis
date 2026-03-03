@@ -1,6 +1,5 @@
 # data/excel
 *.xlsx
-*.csv
 
 # sqlite
 *.db

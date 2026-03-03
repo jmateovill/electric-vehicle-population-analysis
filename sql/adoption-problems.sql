@@ -45,3 +45,8 @@ WHERE model_year between 2015 and 2025
 GROUP BY model_year, maker, model
 HAVING cafv_eligibility = 'Not Eligible'
 ORDER BY rec_count DESC;
+
+-- records of ineligible BEVs
+SELECT *
+FROM evpd_staging
+WHERE ev_type = 'BEV' and cafv_eligibility = 'Not Eligible';
