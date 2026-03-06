@@ -65,3 +65,32 @@ FROM evpd_staging;
 
 SELECT COUNT(*)
 FROM evpd_staging;
+
+-- adding a view for power bi-ready table
+DROP VIEW IF EXISTS vw_EV_PowerBI_Ready;
+
+CREATE VIEW vw_EV_PowerBI_Ready AS
+SELECT 
+    vin,
+    maker,
+    model,
+    model_year,
+    ev_type,
+    -- Rule: Standardize and Shorten labels for UI
+    CASE 
+        WHEN ev_type LIKE '%BEV%' AND model_year BETWEEN 2021 AND 2025 
+        THEN 'Eligible'
+        WHEN cafv_eligibility LIKE '%Not Eligible%' 
+        THEN 'Not Eligible'
+        ELSE 'Unknown'
+    END AS validated_eligibility,
+    -- Rule: Set 0 to NULL so Power BI averages correctly
+    CASE 
+        WHEN electric_range = 0 THEN NULL 
+        ELSE electric_range 
+    END AS clean_range,
+    county,
+    city,
+    primary_elec_util
+FROM evpd_staging
+WHERE model_year BETWEEN 2015 AND 2025;
