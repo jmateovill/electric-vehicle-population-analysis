@@ -82,7 +82,7 @@ SELECT
         THEN 'Eligible'
         WHEN cafv_eligibility LIKE '%Not Eligible%' 
         THEN 'Not Eligible'
-        ELSE 'Unknown'
+        ELSE cafv_eligibility
     END AS validated_eligibility,
     -- Rule: Set 0 to NULL so Power BI averages correctly
     CASE 
