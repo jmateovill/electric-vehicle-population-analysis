@@ -66,8 +66,8 @@ FROM evpd_staging;
 SELECT COUNT(*)
 FROM evpd_staging;
 
--- adding a view for power bi-ready table
-DROP VIEW IF EXISTS vw_EV_PowerBI_Ready;
+-- initial query for power bi ready table
+/*DROP VIEW IF EXISTS vw_EV_PowerBI_Ready;
 
 CREATE VIEW vw_EV_PowerBI_Ready AS
 SELECT 
@@ -98,3 +98,51 @@ SELECT
     primary_elec_util
 FROM evpd_staging
 WHERE model_year BETWEEN 2015 AND 2025;
+*/
+
+-- fixed power bi ready view table
+DROP VIEW IF EXISTS vw_EV_PowerBI_Ready;
+
+CREATE VIEW vw_EV_PowerBI_Ready AS
+WITH view_staging AS (
+	SELECT 
+		vin,
+		maker,
+		model,
+		model_year,
+		ev_type,
+		cafv_eligibility, 
+		electric_range,
+		city,
+		county, 
+		CAST(TRIM(SUBSTR(REPLACE(REPLACE(vehicle_loc, 'POINT (', ''), ')', ''), 1, INSTR(REPLACE(REPLACE(vehicle_loc, 'POINT (', ''), ')', ''), ' '))) AS REAL) AS longitude,
+		CAST(TRIM(SUBSTR(REPLACE(REPLACE(vehicle_loc, 'POINT (', ''), ')', ''), INSTR(REPLACE(REPLACE(vehicle_loc, 'POINT (', ''), ')', ''), ' ') + 1)) AS REAL) AS latitude,
+		primary_elec_util
+	FROM evpd_staging
+)
+SELECT
+	vin,
+	maker,
+	model,
+	model_year,
+	ev_type,
+	CASE 
+        WHEN ev_type LIKE '%BEV%' AND model_year BETWEEN 2021 AND 2025 
+        THEN 'Eligible'
+        WHEN cafv_eligibility LIKE '%Not Eligible%' 
+        THEN 'Not Eligible'
+        ELSE cafv_eligibility
+    END AS validated_eligibility,
+	CASE 
+        WHEN electric_range = 0 THEN NULL 
+        ELSE electric_range 
+    END AS clean_range,
+	county,
+	city,
+	longitude,
+	latitude,
+	primary_elec_util
+FROM view_staging
+WHERE model_year BETWEEN 2015 AND 2025
+	AND longitude <> 0.0
+	AND latitude <> 0.0;
