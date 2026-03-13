@@ -91,6 +91,10 @@ SELECT
     END AS clean_range,
     county,
     city,
+	-- 1. Remove "POINT (" and ")" 
+    -- 2. Split the remaining "Long Lat" string
+    CAST(TRIM(SUBSTR(REPLACE(REPLACE(vehicle_loc, 'POINT (', ''), ')', ''), 1, INSTR(REPLACE(REPLACE(vehicle_loc, 'POINT (', ''), ')', ''), ' '))) AS REAL) AS longitude,
+    CAST(TRIM(SUBSTR(REPLACE(REPLACE(vehicle_loc, 'POINT (', ''), ')', ''), INSTR(REPLACE(REPLACE(vehicle_loc, 'POINT (', ''), ')', ''), ' ') + 1)) AS REAL) AS latitude,
     primary_elec_util
 FROM evpd_staging
 WHERE model_year BETWEEN 2015 AND 2025;
