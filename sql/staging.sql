@@ -113,6 +113,7 @@ WITH view_staging AS (
 		ev_type,
 		cafv_eligibility, 
 		electric_range,
+		state,
 		city,
 		county, 
 		CAST(TRIM(SUBSTR(REPLACE(REPLACE(vehicle_loc, 'POINT (', ''), ')', ''), 1, INSTR(REPLACE(REPLACE(vehicle_loc, 'POINT (', ''), ')', ''), ' '))) AS REAL) AS longitude,
@@ -137,6 +138,7 @@ SELECT
         WHEN electric_range = 0 THEN NULL 
         ELSE electric_range 
     END AS clean_range,
+	state,
 	county,
 	city,
 	longitude,
