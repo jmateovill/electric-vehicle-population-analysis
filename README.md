@@ -66,7 +66,7 @@ The **Reality**: Currently, only 28% of the dataset clearly reflects vehicles be
 
 Moving forward to a powerful business intelligence and visualization tool, I decided to build an **Executive Overview** dashboard intended for *Policy Makers* and *Government* bodies in policy and decision making by gaining insights from extensive analysis of the data using [Microsoft Power BI](powerbi/).
 
-<video controls src="powerbi/evpd-powerbi-preview.mp4" title="Executive Overview Preview"></video>
+<video controls src="[powerbi/evpd-powerbi-preview.mp4](https://github.com/user-attachments/assets/292f0fc8-06a5-4dc4-b669-2cc0f5df395f)" title="Executive Overview Preview"></video>
 
 To showcase a work-ready capability, instead of importing csv-formatted dataset to *Power BI* I've used *SQLite3 ODBC Driver* to connect the tool to *SQLite* that contains all the data and schema built from previous part. Ensuring a secure and scalable pipeline I've built a structured *View Table* containing necessary columns as a data source for the viz tool, emulating a real DA work and approach to databases and tools.
 
