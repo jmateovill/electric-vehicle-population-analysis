@@ -5,3 +5,6 @@
 *.db
 *.sqbpro
 *.sqlite
+
+# other files
+kpi.md
